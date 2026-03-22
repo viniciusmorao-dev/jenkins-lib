@@ -39,20 +39,7 @@ def call(Map config) {
                 steps {
                     script {
                         sh """
-                        rm -rf infra || true
-                        git clone https://github.com/viniciusmorao-dev/infra-demo-app.git infra
-                        cd infra
-                        sed -i 's/APP1_VERSION=.*/APP1_VERSION=${TAG}/' .env
-                        docker-compose down || true
-
-                        rm -rf /tmp/infra || true
-                        mkdir -p /tmp/infra/nginx
                         
-                        # Copiar arquivos específicos
-                        cp infra/docker-compose.yaml /tmp/infra/
-                        cp infra/.env /tmp/infra/
-                        cp infra/nginx/default.conf /tmp/infra/nginx/
-                    
                         docker-compose config   # imprime config final para debug
                         docker-compose up -d --build || true
                         """
