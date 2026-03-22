@@ -44,7 +44,7 @@ def call(Map config) {
                         cd infra
                         sed -i 's/APP1_VERSION=.*/APP1_VERSION=${TAG}/' .env
 
-                        rm -rf nginx/default.conf || true
+                        
 
                         if [ ! -f nginx/default.conf ]; then
                             echo "ERRO: arquivo nginx/default.conf não encontrado!"
