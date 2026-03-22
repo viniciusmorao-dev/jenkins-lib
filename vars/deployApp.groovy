@@ -42,9 +42,7 @@ def call(Map config) {
                         rm -rf infra || true
                         git clone https://github.com/viniciusmorao-dev/infra-demo-app.git infra
                         cd infra
-
                         sed -i 's/APP1_VERSION=.*/APP1_VERSION=${TAG}/' .env
-
                         docker-compose down
                         docker-compose up -d
                         """
