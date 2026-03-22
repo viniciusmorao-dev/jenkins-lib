@@ -39,6 +39,7 @@ def call(Map config) {
                 steps {
                     script {
                         sh """
+                        set -x
                         rm -rf infra || true
                         git clone https://github.com/viniciusmorao-dev/infra-demo-app.git infra
                         cd infra
