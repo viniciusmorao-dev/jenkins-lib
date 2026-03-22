@@ -50,7 +50,8 @@ def call(Map config) {
                             echo "ERRO: arquivo nginx/default.conf não encontrado!"
                             exit 1
                         fi
-                        
+
+                        docker-compose down || true
                         docker-compose up -d --build
                         """
                     }
