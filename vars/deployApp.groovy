@@ -49,6 +49,7 @@ def call(Map config) {
 
                          # Copiar para /tmp/infra para Docker host enxergar
                         rm -rf /tmp/infra
+                        cd ..
                         cp -r infra /tmp/infra
                         cd /tmp/infra
                     
