@@ -46,6 +46,10 @@ def call(Map config) {
                         ls -l nginx/default.conf
                         sed -i 's/APP1_VERSION=.*/APP1_VERSION=${TAG}/' .env
                         docker-compose down
+
+                        rm -rf /tmp/infra
+                        cp -r infra /tmp/infra
+                        cd /tmp/infra
                         docker-compose up -d
                         """
                     }
