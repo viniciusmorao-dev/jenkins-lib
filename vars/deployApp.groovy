@@ -45,8 +45,8 @@ def call(Map config) {
 
                         sed -i 's/APP1_VERSION=.*/APP1_VERSION=${TAG}/' .env
 
-                        docker compose down
-                        docker compose up -d
+                        docker-compose down
+                        docker-compose up -d
                         """
                     }
                 }
