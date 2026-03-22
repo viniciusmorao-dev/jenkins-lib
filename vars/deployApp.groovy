@@ -39,9 +39,12 @@ def call(Map config) {
                 steps {
                     script {
                         sh """
-                        
-                        docker-compose config   # imprime config final para debug
-                        docker-compose up -d --build || true
+                        rm -rf infra || true
+                        git clone https://github.com/viniciusmorao-dev/infra-demo-app.git infra
+                        cd infra
+                        sed -i 's/APP1_VERSION=.*/APP1_VERSION=${TAG}/' .env
+                        docker-compose down
+                        docker-compose up -d
                         """
                     }
                 }
