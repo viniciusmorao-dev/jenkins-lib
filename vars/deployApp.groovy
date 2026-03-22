@@ -45,14 +45,16 @@ def call(Map config) {
                         sed -i 's/APP1_VERSION=.*/APP1_VERSION=${TAG}/' .env
                         docker-compose down || true
 
-                         # Copiar para /tmp/infra para Docker host enxergar
-                        rm -rf /tmp/infra
-                        cd ..
-                        cp -r infra /tmp/infra
-                        cd /tmp/infra
+                        rm -rf /tmp/infra || true
+                        mkdir -p /tmp/infra/nginx
+                        
+                        # Copiar arquivos específicos
+                        cp infra/docker-compose.yaml /tmp/infra/
+                        cp infra/.env /tmp/infra/
+                        cp infra/nginx/default.conf /tmp/infra/nginx/
                     
                         docker-compose config   # imprime config final para debug
-                        docker-compose up -d || true
+                        docker-compose up -d --build || true
                         """
                     }
                 }
