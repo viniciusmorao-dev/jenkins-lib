@@ -4,7 +4,6 @@ def call(Map config) {
         agent any
 
         environment {
-            IMAGE_NAME = config.image
             TAG = "${env.BUILD_NUMBER}"
         }
 
@@ -12,7 +11,10 @@ def call(Map config) {
 
             stage('Build') {
                 steps {
-                    sh 'docker build -t $IMAGE_NAME:$TAG .'
+                    script {
+                        def IMAGE_NAME = config.image
+                        sh "docker build -t ${IMAGE_NAME}:${TAG} ."
+                    }
                 }
             }
 
@@ -26,22 +28,27 @@ def call(Map config) {
 
             stage('Push Image') {
                 steps {
-                    sh 'docker push $IMAGE_NAME:$TAG'
+                    script {
+                        def IMAGE_NAME = config.image
+                        sh "docker push ${IMAGE_NAME}:${TAG}"
+                    }
                 }
             }
 
             stage('Update Infra') {
                 steps {
-                    sh """
-                    rm -rf infra || true
-                    git clone https://seu-repo-infra.git infra
-                    cd infra
+                    script {
+                        sh """
+                        rm -rf infra || true
+                        git clone https://seu-repo-infra.git infra
+                        cd infra
 
-                    sed -i 's/APP1_VERSION=.*/APP1_VERSION=${TAG}/' .env
+                        sed -i 's/APP1_VERSION=.*/APP1_VERSION=${TAG}/' .env
 
-                    docker-compose down
-                    docker-compose up -d
-                    """
+                        docker-compose down
+                        docker-compose up -d
+                        """
+                    }
                 }
             }
         }
